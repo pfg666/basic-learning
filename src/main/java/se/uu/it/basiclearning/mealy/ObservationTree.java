@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.automatalib.words.Word;
+import net.automatalib.word.Word;
 
 /**
  * @author Ramon Janssen

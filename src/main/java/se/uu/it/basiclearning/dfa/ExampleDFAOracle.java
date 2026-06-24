@@ -1,7 +1,7 @@
 package se.uu.it.basiclearning.dfa;
 
-import de.learnlib.api.oracle.SingleQueryOracle.SingleQueryOracleDFA;
-import net.automatalib.words.Word;
+import de.learnlib.oracle.SingleQueryOracle.SingleQueryOracleDFA;
+import net.automatalib.word.Word;
 
 public class ExampleDFAOracle implements SingleQueryOracleDFA<String> {
 	

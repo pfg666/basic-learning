@@ -2,24 +2,25 @@ package se.uu.it.basiclearning.dfa;
 
 import com.google.common.collect.Lists;
 
-import de.learnlib.acex.analyzers.AcexAnalyzers;
-import de.learnlib.algorithms.kv.dfa.KearnsVaziraniDFA;
-import de.learnlib.algorithms.lstar.ce.ObservationTableCEXHandlers;
-import de.learnlib.algorithms.lstar.closing.ClosingStrategies;
-import de.learnlib.algorithms.lstar.dfa.ExtensibleLStarDFA;
-import de.learnlib.algorithms.ttt.dfa.TTTLearnerDFA;
-import de.learnlib.api.algorithm.LearningAlgorithm;
-import de.learnlib.api.oracle.EquivalenceOracle;
-import de.learnlib.api.oracle.MembershipOracle.DFAMembershipOracle;
+import de.learnlib.acex.AcexAnalyzers;
+import de.learnlib.algorithm.LearningAlgorithm;
+import de.learnlib.algorithm.kv.dfa.KearnsVaziraniDFA;
+import de.learnlib.algorithm.lstar.ce.ObservationTableCEXHandlers;
+import de.learnlib.algorithm.lstar.closing.ClosingStrategies;
+import de.learnlib.algorithm.lstar.dfa.ExtensibleLStarDFA;
+import de.learnlib.algorithm.ttt.dfa.TTTLearnerDFA;
+import de.learnlib.filter.cache.dfa.DFACaches;
 import de.learnlib.filter.cache.dfa.DFAHashCacheOracle;
 import de.learnlib.filter.statistic.Counter;
 import de.learnlib.filter.statistic.oracle.DFACounterOracle;
+import de.learnlib.oracle.EquivalenceOracle;
+import de.learnlib.oracle.MembershipOracle.DFAMembershipOracle;
 import de.learnlib.oracle.equivalence.DFAWMethodEQOracle;
 import de.learnlib.oracle.equivalence.DFAWpMethodEQOracle;
 import de.learnlib.oracle.equivalence.RandomWpMethodEQOracle;
-import net.automatalib.automata.fsa.DFA;
-import net.automatalib.words.Alphabet;
-import net.automatalib.words.Word;
+import net.automatalib.alphabet.Alphabet;
+import net.automatalib.automaton.fsa.DFA;
+import net.automatalib.word.Word;
 import se.uu.it.basiclearning.BasicLearner;
 import se.uu.it.basiclearning.LearnerConfig;
 import se.uu.it.basiclearning.LearningSetup;
@@ -79,10 +80,10 @@ public class DFALearner<I> extends BasicLearner<I, Boolean, DFA<?, I>> {
 
 		public DFALearningSetup(Alphabet<I> alphabet) {
 			DFASymbolCounterOracle<I> symbolCounterOracle = new DFASymbolCounterOracle<>(sulOracle, "symbol counter");
-			DFACounterOracle<I> resetCounterOracle = new DFACounterOracle<>(symbolCounterOracle, "reset counter");
-			DFAHashCacheOracle<I> cacheOracle = new DFAHashCacheOracle<>(resetCounterOracle);
+			DFACounterOracle<I> resetCounterOracle = new DFACounterOracle<>(symbolCounterOracle);
+			DFAHashCacheOracle<I> cacheOracle = DFACaches.createHashCache(resetCounterOracle);
 			nrSymbols = symbolCounterOracle.getStatisticalData();
-			nrResets = resetCounterOracle.getStatisticalData();
+			nrResets = resetCounterOracle.getQueryCounter();
 
 			// Choosing an equivalence oracle
 			eqOracle = loadTester(cacheOracle);

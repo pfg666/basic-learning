@@ -8,8 +8,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import de.learnlib.api.SUL;
-import de.learnlib.api.exception.SULException;
+import de.learnlib.exception.SULException;
+import de.learnlib.sul.SUL;
 
 /**
  * Socket interface to connect to an SUT/test adapter over TCP.
@@ -46,9 +46,9 @@ public class SocketSUL implements SUL<String, String>, AutoCloseable {
 	@Override
 	public void post() {
 		if (extraNewLine) {
-			this.SULinput.write(this.resetCmd + System.lineSeparator());
+			SULinput.write(this.resetCmd + System.lineSeparator());
 		} else {
-			this.SULinput.write(this.resetCmd);
+			SULinput.write(this.resetCmd);
 		}
 		this.SULinput.flush();
 	}
@@ -61,13 +61,13 @@ public class SocketSUL implements SUL<String, String>, AutoCloseable {
 	@Override
 	public String step(String input) throws SULException {
 		if (extraNewLine) {
-			this.SULinput.write(input + System.lineSeparator());
+			SULinput.write(input + System.lineSeparator());
 		} else {
-			this.SULinput.write(input);
+			SULinput.write(input);
 		}
-		this.SULinput.flush();
+		SULinput.flush();
 		try {
-			return this.SULoutput.readLine();
+			return SULoutput.readLine();
 		} catch (IOException e) {
 			throw new SULException(e);
 		}
@@ -75,6 +75,6 @@ public class SocketSUL implements SUL<String, String>, AutoCloseable {
 
 	@Override
 	public void close() throws Exception {
-		this.socket.close();
+		socket.close();
 	}
 }

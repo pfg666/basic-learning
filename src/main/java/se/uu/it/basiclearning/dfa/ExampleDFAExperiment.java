@@ -6,7 +6,7 @@ import java.util.Collection;
 import com.beust.jcommander.JCommander;
 import com.google.common.collect.ImmutableSet;
 
-import de.learnlib.api.oracle.MembershipOracle.DFAMembershipOracle;
+import de.learnlib.oracle.MembershipOracle.DFAMembershipOracle;
 import se.uu.it.basiclearning.LearnerConfig;
 
 public class ExampleDFAExperiment {

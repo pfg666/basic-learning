@@ -10,15 +10,15 @@ import java.util.Collection;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import de.learnlib.api.algorithm.LearningAlgorithm;
-import de.learnlib.api.oracle.EquivalenceOracle;
-import de.learnlib.api.query.DefaultQuery;
+import de.learnlib.algorithm.LearningAlgorithm;
 import de.learnlib.filter.statistic.Counter;
-import net.automatalib.automata.Automaton;
+import de.learnlib.oracle.EquivalenceOracle;
+import de.learnlib.query.DefaultQuery;
+import net.automatalib.alphabet.Alphabet;
+import net.automatalib.alphabet.impl.ListAlphabet;
+import net.automatalib.automaton.Automaton;
 import net.automatalib.serialization.dot.GraphDOT;
 import net.automatalib.visualization.dot.DOT;
-import net.automatalib.words.Alphabet;
-import net.automatalib.words.impl.ListAlphabet;
 
 /**
  * General learning testing framework. All basic settings are at the top of this file and can be configured

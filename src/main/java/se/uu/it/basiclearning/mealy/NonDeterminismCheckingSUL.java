@@ -3,8 +3,8 @@ package se.uu.it.basiclearning.mealy;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.learnlib.api.SUL;
-import de.learnlib.api.exception.SULException;
+import de.learnlib.exception.SULException;
+import de.learnlib.sul.SUL;
 
 /**
  * SUL-wrapper to check for non-determinism, by use of an observation tree.

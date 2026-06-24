@@ -4,27 +4,26 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import de.learnlib.acex.analyzers.AcexAnalyzers;
-import de.learnlib.algorithms.kv.mealy.KearnsVaziraniMealy;
-import de.learnlib.algorithms.lstar.ce.ObservationTableCEXHandlers;
-import de.learnlib.algorithms.lstar.closing.ClosingStrategies;
-import de.learnlib.algorithms.lstar.mealy.ExtensibleLStarMealy;
-import de.learnlib.algorithms.ttt.mealy.TTTLearnerMealy;
-import de.learnlib.api.SUL;
-import de.learnlib.api.algorithm.LearningAlgorithm;
-import de.learnlib.api.oracle.EquivalenceOracle;
-import de.learnlib.api.oracle.MembershipOracle.MealyMembershipOracle;
+import de.learnlib.acex.AcexAnalyzers;
+import de.learnlib.algorithm.LearningAlgorithm;
+import de.learnlib.algorithm.kv.mealy.KearnsVaziraniMealy;
+import de.learnlib.algorithm.lstar.ce.ObservationTableCEXHandlers;
+import de.learnlib.algorithm.lstar.closing.ClosingStrategies;
+import de.learnlib.algorithm.lstar.mealy.ExtensibleLStarMealy;
+import de.learnlib.algorithm.ttt.mealy.TTTLearnerMealy;
 import de.learnlib.filter.statistic.Counter;
-import de.learnlib.filter.statistic.sul.ResetCounterSUL;
-import de.learnlib.filter.statistic.sul.SymbolCounterSUL;
+import de.learnlib.filter.statistic.sul.CounterSUL;
+import de.learnlib.oracle.EquivalenceOracle;
+import de.learnlib.oracle.MembershipOracle.MealyMembershipOracle;
 import de.learnlib.oracle.equivalence.MealyWMethodEQOracle;
 import de.learnlib.oracle.equivalence.MealyWpMethodEQOracle;
 import de.learnlib.oracle.equivalence.RandomWpMethodEQOracle;
 import de.learnlib.oracle.equivalence.mealy.RandomWalkEQOracle;
 import de.learnlib.oracle.membership.SULOracle;
-import net.automatalib.automata.transducers.MealyMachine;
-import net.automatalib.words.Alphabet;
-import net.automatalib.words.Word;
+import de.learnlib.sul.SUL;
+import net.automatalib.alphabet.Alphabet;
+import net.automatalib.automaton.transducer.MealyMachine;
+import net.automatalib.word.Word;
 import se.uu.it.basiclearning.BasicLearner;
 import se.uu.it.basiclearning.LearnerConfig;
 import se.uu.it.basiclearning.LearningSetup;
@@ -90,19 +89,20 @@ public class MealyLearner<I, O> extends BasicLearner<I, Word<O>, MealyMachine<?,
 	public class MealyLearningSetup extends LearningSetup<I, Word<O>, MealyMachine<?, I, ?, O>> {
 		public final EquivalenceOracle<MealyMachine<?, I, ?, O>, I, Word<O>> eqOracle;
 		public final LearningAlgorithm<MealyMachine<?, I, ?, O>, I, Word<O>> learner;
-		public final Counter nrSymbols, nrResets;
+		public Counter nrSymbols, nrResets;
 
 		public MealyLearningSetup(SUL<I, O> sul, Alphabet<I> alphabet) {
 			// Wrap the SUL in a detector for non-determinism
 			SUL<I, O> nonDetSul = new NonDeterminismCheckingSUL<I, O>(sul);
+			nrSymbols = new Counter("symbol counter", "symbols");
+			nrResets = new Counter("symbol counter", "resets");
 			// Wrap the SUL in counters for symbols/resets, so that we can record some
 			// statistics
-			SymbolCounterSUL<I, O> symbolCounterSul = new SymbolCounterSUL<>("symbol counter", nonDetSul);
-			ResetCounterSUL<I, O> resetCounterSul = new ResetCounterSUL<>("reset counter", symbolCounterSul);
-			nrSymbols = symbolCounterSul.getStatisticalData();
-			nrResets = resetCounterSul.getStatisticalData();
+			CounterSUL<I, O> counterSul = new CounterSUL<I, O>(nonDetSul);
+			nrSymbols = counterSul.getSymbolCounter();
+			nrResets = counterSul.getResetCounter();
 			// we should use the sul only through those wrappers
-			sul = resetCounterSul;
+			sul = counterSul;
 			// Most testing/learning-algorithms want a membership-oracle instead of a SUL
 			// directly
 			MealyMembershipOracle<I, O> sulOracle = new SULOracle<>(sul);

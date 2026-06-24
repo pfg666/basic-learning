@@ -2,10 +2,10 @@ package se.uu.it.basiclearning.dfa;
 
 import java.util.Collection;
 
-import de.learnlib.api.oracle.MembershipOracle;
-import de.learnlib.api.query.Query;
-import de.learnlib.api.statistic.StatisticOracle;
 import de.learnlib.filter.statistic.Counter;
+import de.learnlib.oracle.MembershipOracle;
+import de.learnlib.query.Query;
+import de.learnlib.statistic.StatisticOracle;
 
 public class DFASymbolCounterOracle <I>  implements StatisticOracle<I, Boolean>, MembershipOracle.DFAMembershipOracle<I> {
 
@@ -15,11 +15,6 @@ public class DFASymbolCounterOracle <I>  implements StatisticOracle<I, Boolean>,
 	public DFASymbolCounterOracle(MembershipOracle<I, Boolean> oracle, String name) {
 		this.oracle = oracle;
 		this.counter = new Counter(name, "symbols");
-	}
-	
-	@Override
-	public void setNext(MembershipOracle<I, Boolean> next) {
-		this.oracle = next;
 	}
 
 	@Override

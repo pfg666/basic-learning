@@ -1,7 +1,7 @@
 package se.uu.it.basiclearning.mealy;
 
-import de.learnlib.api.SUL;
-import de.learnlib.api.exception.SULException;
+import de.learnlib.exception.SULException;
+import de.learnlib.sul.SUL;
 
 /**
  * Example of a three-state system, hard-coded.

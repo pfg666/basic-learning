@@ -1,6 +1,6 @@
 package se.uu.it.basiclearning.mealy;
 
-import net.automatalib.words.Word;
+import net.automatalib.word.Word;
 
 /**
  * Contains the full input for which non-determinism was observed, as well as the full new output

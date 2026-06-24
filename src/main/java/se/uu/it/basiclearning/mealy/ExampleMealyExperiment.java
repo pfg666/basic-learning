@@ -6,7 +6,7 @@ import java.util.Collection;
 import com.beust.jcommander.JCommander;
 import com.google.common.collect.ImmutableSet;
 
-import de.learnlib.api.SUL;
+import de.learnlib.sul.SUL;
 import se.uu.it.basiclearning.LearnerConfig;
 
 /**

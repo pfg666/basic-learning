@@ -1,9 +1,9 @@
 package se.uu.it.basiclearning;
 
-import de.learnlib.api.algorithm.LearningAlgorithm;
-import de.learnlib.api.oracle.EquivalenceOracle;
+import de.learnlib.algorithm.LearningAlgorithm;
 import de.learnlib.filter.statistic.Counter;
-import net.automatalib.automata.Automaton;
+import de.learnlib.oracle.EquivalenceOracle;
+import net.automatalib.automaton.Automaton;
 
 public abstract class LearningSetup<I, D, M extends Automaton<?, I, ?>> {
 	
