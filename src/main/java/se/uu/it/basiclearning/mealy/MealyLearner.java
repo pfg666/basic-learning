@@ -94,8 +94,6 @@ public class MealyLearner<I, O> extends BasicLearner<I, Word<O>, MealyMachine<?,
 		public MealyLearningSetup(SUL<I, O> sul, Alphabet<I> alphabet) {
 			// Wrap the SUL in a detector for non-determinism
 			SUL<I, O> nonDetSul = new NonDeterminismCheckingSUL<I, O>(sul);
-			nrSymbols = new Counter("symbol counter", "symbols");
-			nrResets = new Counter("symbol counter", "resets");
 			// Wrap the SUL in counters for symbols/resets, so that we can record some
 			// statistics
 			CounterSUL<I, O> counterSul = new CounterSUL<I, O>(nonDetSul);
